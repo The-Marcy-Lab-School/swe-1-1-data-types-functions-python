@@ -4,10 +4,10 @@ Write small functions using Python's operators, variables, and f-strings.
 
 **Practicing:** data types, operators, variables, functions, `return`, scope
 
+- [AI Use on This Assignment](#ai-use-on-this-assignment)
 - [Before We Begin](#before-we-begin)
   - [What's In An Assignment?](#whats-in-an-assignment)
   - [Predict Before You Run](#predict-before-you-run)
-- [AI Use on This Assignment](#ai-use-on-this-assignment)
 - [Setup](#setup)
 - [From Scratch](#from-scratch)
   - [Question 1: `calculate_area`](#question-1-calculate_area)
@@ -23,6 +23,34 @@ Write small functions using Python's operators, variables, and f-strings.
 - [Resources](#resources)
 - [Submitting](#submitting)
 - [Good luck!](#good-luck)
+
+## AI Use on This Assignment
+
+Use whichever mode matches where you are with this material. Both are fine,
+and most people move between them as a concept clicks.
+
+**Tutor mode.** The AI explains, questions, quizzes, and critiques, and you
+write every line you submit. For this assignment that means asking it what an
+f-string does, or having it quiz you on operators until you can predict what
+your own code will do. Ask it a hundred questions — that is the whole point.
+What you do not do is ask it for the function. Paste this at the start of a
+chat and it will hold for the rest of the conversation:
+
+> You are acting as a tutor. Your job is to explain what this coding question
+> is asking, clarify confusing wording, and highlight the relevant concepts I
+> need to know — but do not provide the full solution or code that directly
+> answers the question. Instead, rephrase the problem in simpler terms,
+> identify what is being tested, and suggest what steps or thought processes
+> might help. Ask me guiding questions to make sure I am thinking critically.
+> Do not write the final function, algorithm, or code implementation.
+
+**Implementer mode.** You write a specification first, the AI writes code from
+it, and then you verify that code line by line. For this assignment your spec
+has to give each function's inputs, its return value, and one example. If what
+comes back does more than you asked for, reject it — over-delivery is a
+defect, and catching it is part of the job.
+
+You own every line either way, and you will be asked to explain it.
 
 ## Before We Begin
 
@@ -54,34 +82,6 @@ It opens with five lines whose results surprise most people the first time.
 Predict each one before you run the file, then see which predictions were
 wrong. A wrong prediction is the most useful thing you will find all week,
 because it points at a rule you did not know you were missing.
-
-## AI Use on This Assignment
-
-Use whichever mode matches where you are with this material. Both are fine,
-and most people move between them as a concept clicks.
-
-**Tutor mode.** The AI explains, questions, quizzes, and critiques, and you
-write every line you submit. For this assignment that means asking it what an
-f-string does, or having it quiz you on operators until you can predict what
-your own code will do. Ask it a hundred questions — that is the whole point.
-What you do not do is ask it for the function. Paste this at the start of a
-chat and it will hold for the rest of the conversation:
-
-> You are acting as a tutor. Your job is to explain what this coding question
-> is asking, clarify confusing wording, and highlight the relevant concepts I
-> need to know — but do not provide the full solution or code that directly
-> answers the question. Instead, rephrase the problem in simpler terms,
-> identify what is being tested, and suggest what steps or thought processes
-> might help. Ask me guiding questions to make sure I am thinking critically.
-> Do not write the final function, algorithm, or code implementation.
-
-**Implementer mode.** You write a specification first, the AI writes code from
-it, and then you verify that code line by line. For this assignment your spec
-has to give each function's inputs, its return value, and one example. If what
-comes back does more than you asked for, reject it — over-delivery is a
-defect, and catching it is part of the job.
-
-You own every line either way, and you will be asked to explain it.
 
 ## Setup
 
