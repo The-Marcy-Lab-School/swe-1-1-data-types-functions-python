@@ -16,3 +16,23 @@ def is_valid_age(age):
 
 def create_greeting(name):
     pass
+
+
+def minutes_to_clock(total_minutes):
+    pass
+
+
+def is_leap_year(year):
+    pass
+
+
+def make_banner(text, symbol="*"):
+    pass
+
+
+def calculate_room_cost(width, height, price_per_square_foot):
+    pass
+
+
+def is_vowel(letter):
+    pass

@@ -2,24 +2,30 @@
 
 Write small functions using Python's operators, variables, and f-strings.
 
-**Practicing:** data types, operators, variables, functions, `return`, scope
+**Practicing:** data types, operators, variables, functions, `return`, default arguments, scope
 
 - [AI Use on This Assignment](#ai-use-on-this-assignment)
 - [Before We Begin](#before-we-begin)
   - [What's In An Assignment?](#whats-in-an-assignment)
   - [Predict Before You Run](#predict-before-you-run)
 - [Setup](#setup)
+  - [Testing](#testing)
 - [From Scratch](#from-scratch)
   - [Question 1: `calculate_area`](#question-1-calculate_area)
   - [Question 2: `is_even`](#question-2-is_even)
   - [Question 3: `convert_to_fahrenheit`](#question-3-convert_to_fahrenheit)
   - [Question 4: `is_valid_age`](#question-4-is_valid_age)
   - [Question 5: `create_greeting`](#question-5-create_greeting)
+  - [Question 6: `minutes_to_clock`](#question-6-minutes_to_clock)
+  - [Question 7: `is_leap_year`](#question-7-is_leap_year)
+  - [Question 8: `make_banner`](#question-8-make_banner)
+  - [Question 9: `calculate_room_cost`](#question-9-calculate_room_cost)
+  - [Question 10: `is_vowel`](#question-10-is_vowel)
 - [Modify](#modify)
-  - [Question 6: `return` vs `print`](#question-6-return-vs-print)
-  - [Question 7: `greet`](#question-7-greet)
+  - [Question 11: `return` vs `print`](#question-11-return-vs-print)
+  - [Question 12: `greet`](#question-12-greet)
 - [Debug](#debug)
-  - [Question 8: Fix our mess of a function](#question-8-fix-our-mess-of-a-function)
+  - [Question 13: Fix our mess of a function](#question-13-fix-our-mess-of-a-function)
 - [Resources](#resources)
 - [Submitting](#submitting)
 - [Good luck!](#good-luck)
@@ -68,7 +74,7 @@ Assignments have three kinds of coding question.
   is broken here. The code works and you are making it better.
 - **Debug**: we'll be real with you, most of this job is fixing something
   broken. Here you get code that does not work, and you get it working by
-  *mostly* relying on reading the tests.
+  _mostly_ relying on reading the tests.
 
 This assignment has all three. Not every assignment will. Read the whole
 README and use the tests to confirm you have finished.
@@ -80,24 +86,38 @@ print whatever you like, and run it with `python3 src/playground.py`.
 
 It opens with five lines whose results surprise most people the first time.
 Predict each one before you run the file, then see which predictions were
-wrong. A wrong prediction is the most useful thing you will find all week,
-because it points at a rule you did not know you were missing.
+wrong. A wrong prediction may the most useful learning moment,
+because it reveals a rule you didn't know you misunderstood.
 
 ## Setup
 
-Work in `development/mod-1`. Make a draft branch before you start.
+Work in `development/mod-1` then use the commands below to get started. You will first make a virtual environment and install the required packages that enable testing for this assignment (`pytest`). You will learn more about virtual environments in lesson 1.9 but for now you just need to remember to run these commands.
+
+Make a `draft` branch before you start.
 
 ```sh
-python3 -m venv .venv
-source .venv/bin/activate
+# Set up the virtual environment and install required packages
+python3 -m venv .venv # create a virtual environment folder .venv
+source .venv/bin/activate # turn the virtual environment on
 pip install -r requirements.txt
+
+# Create a draft branch
 git checkout -b draft
 ```
 
-Run `pytest` for everything, or `pytest -k is_even` for one question.
+### Testing
 
-Every time you push, GitHub runs the tests for you and reports your score. Open
-the **Actions** tab in your repository to see it. 75% of tests passing counts
+There are automated tests provided for you in the `tests/` directory that will help you verify that your functions are behaving as expected. You may read these test files but **you are not allowed to modify them**. You will learn more about `pytest` in lesson 1.9 but for now, you can just use the commands below to run them:
+
+```sh
+pytest              # run all tests
+pytest -k is_even   # runs just the test_is_even test
+```
+
+Additionally, every time you push, GitHub runs the tests for you and reports your score. Open
+the **Actions** tab in your repository to see it.
+
+75% of tests passing counts
 as complete. Submit at that point even if it is not perfect. Treat submitting
 as a checkpoint rather than a finish line, and come back to improve it.
 
@@ -131,7 +151,7 @@ is_even(0)
 # True
 ```
 
-The `%` operator gives you the remainder after division. An even number
+Hint: The `%` operator gives you the remainder after division. An even number
 divides by 2 with nothing left over, so its remainder is 0.
 
 ### Question 3: `convert_to_fahrenheit`
@@ -142,19 +162,17 @@ formula `(celsius * 9 / 5) + 32`.
 
 ```python
 convert_to_fahrenheit(0)
-# 32
+# 32.0
 convert_to_fahrenheit(100)
-# 212
+# 212.0
 convert_to_fahrenheit(-40)
-# -40
+# -40.0
 ```
 
-Python multiplies and divides before it adds, so `celsius * 9 / 5 + 32` gives
-the same answer as the version with parentheses. Keep the parentheses anyway.
-They tell the next reader which part is the conversion and which part is the
-offset, and that reader is usually you in three weeks.
+Consider this: why are the results floats if the inputs are integers? Ask an instructor to explain this if
+you are unable to find an answer on your own.
 
-That `-40` is not a typo. It is the one temperature where both scales agree,
+Fun fact: That `-40` is not a typo. It is the one temperature where both scales agree,
 which is a genuinely great piece of trivia.
 
 ### Question 4: `is_valid_age`
@@ -174,8 +192,18 @@ is_valid_age(-1)
 # False
 ```
 
-Python lets you chain comparisons, so you can write this the way you would say
-it out loud: `0 <= age <= 120`. How about that?
+Hint: Python lets you chain comparisons, so you can write this the way you would say
+it out loud:
+
+```py
+valueA < valueB < valueC
+```
+
+instead of writing separate statements and joining them with `and`:
+
+```py
+valueA < valueB and valueB < valueC
+```
 
 ### Question 5: `create_greeting`
 
@@ -192,19 +220,102 @@ create_greeting("")
 # "Hello, !"
 ```
 
-An **f-string** is a string with an `f` before the opening quote. Any
+Note that an empty name still has to produce a valid string, comma and all.
+
+Hint: An **f-string** is a string with an `f` before the opening quote. Any
 expression inside `{}` is evaluated and its value is placed into the text:
 
 ```python
-name = "Zo"
-f"Hello, {name}!"   # "Hello, Zo!"
+age = 25
+years_in_the_future = 5
+f"In {years_in_the_future} years I will be {years_in_the_future + age} years old."
+# "In 5 years I will be 30 years old."
 ```
 
-An empty name still has to produce a valid string, comma and all.
+### Question 6: `minutes_to_clock`
+
+Write a function `minutes_to_clock` that takes one parameter: a whole number `total_minutes`. It should return a string in the format `"[hours]h [minutes]m"`, where the hours and minutes are the whole hours and the leftover minutes in `total_minutes`.
+
+Do not include the `[]` characters. They are there to show you where the variables go.
+
+```python
+minutes_to_clock(125)
+# "2h 5m"
+minutes_to_clock(45)
+# "0h 45m"
+minutes_to_clock(60)
+# "1h 0m"
+```
+
+Hint: The `//` operator divides and rounds down to a whole number, and the `%` operator gives the remainder. One of them gives you the number of whole hours and the other gives you the minutes left over. Which is which?
+
+### Question 7: `is_leap_year`
+
+Write a function `is_leap_year` that takes one parameter: a whole number `year`. It should return `True` if the year is a leap year and `False` otherwise.
+
+A year is a leap year if it is divisible by 4, with one exception: a year divisible by 100 is not a leap year, unless it is also divisible by 400.
+
+```python
+is_leap_year(2024)
+# True
+is_leap_year(2023)
+# False
+is_leap_year(1900)
+# False
+is_leap_year(2000)
+# True
+```
+
+Hint: You will need `and`, `or`, and probably `not`. Python evaluates `and` before `or`, so an expression without parentheses may group your conditions differently than you intended. Test your function against `1900` and `2000` to find out whether your grouping is right.
+
+### Question 8: `make_banner`
+
+Write a function `make_banner` that takes two parameters: a string `text` and a string `symbol`. The `symbol` parameter should have a default value of `"*"`. The function should return the text with a space on each side, surrounded by three copies of the symbol on each side.
+
+```python
+make_banner("Hi")
+# "*** Hi ***"
+make_banner("Hi", "=")
+# "=== Hi ==="
+make_banner("Hi", symbol="-")
+# "--- Hi ---"
+```
+
+Hint: Multiplying a string by a whole number repeats it, so `"ab" * 4` produces `"abababab"`.
+
+### Question 9: `calculate_room_cost`
+
+Write a function `calculate_room_cost` that takes three parameters: a number `width`, a number `height`, and a number `price_per_square_foot`. It should return the cost of covering a rectangular floor, which is the area multiplied by the price per square foot.
+
+Use your `calculate_area` function from Question 1 to find the area.
+
+```python
+calculate_room_cost(5, 3, 2)
+# 30
+calculate_room_cost(10, 7, 1.5)
+# 105.0
+```
+
+Hint: A function call resolves to the value that the function returns, so `calculate_area(5, 3)` can be used anywhere the number `15` could be used. If `calculate_area` printed its answer instead of returning it, the function call would resolve to `None` and the multiplication would raise a `TypeError`.
+
+### Question 10: `is_vowel`
+
+Write a function `is_vowel` that takes one parameter: a string `letter` containing a single character. It should return `True` if the letter is one of `a`, `e`, `i`, `o`, or `u` in either uppercase or lowercase, and `False` otherwise.
+
+```python
+is_vowel("a")
+# True
+is_vowel("E")
+# True
+is_vowel("z")
+# False
+```
+
+Hint: The `in` operator checks whether a value appears inside a string, so `"b" in "abc"` is `True`. Think about what string you want to check the letter against, and whether it needs both cases.
 
 ## Modify
 
-### Question 6: `return` vs `print`
+### Question 11: `return` vs `print`
 
 Make each of the four functions in `src/return_vs_print.py` return its result.
 
@@ -228,7 +339,7 @@ add(add(1, 2), 3)
 A function that only prints cannot be used by another function, which is most
 of what functions are for.
 
-### Question 7: `greet`
+### Question 12: `greet`
 
 Modify `greet` in `src/default_args.py` so that only `name` is required.
 
@@ -254,7 +365,7 @@ order you like.
 
 ## Debug
 
-### Question 8: Fix our mess of a function
+### Question 13: Fix our mess of a function
 
 Inside `src/bad_scope.py` we have a doozy of a function. It is reaching for a
 global, gluing strings together with `+`, and trying (poorly) to use a variable
