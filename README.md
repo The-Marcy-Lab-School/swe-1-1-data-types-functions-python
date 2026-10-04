@@ -96,27 +96,23 @@ Work in `development/mod-1` then use the commands below to get started. You will
 Make a `draft` branch before you start.
 
 ```sh
-python3 -m venv .venv
-source .venv/bin/activate
+# Set up the virtual environment and install required packages
+python3 -m venv .venv # create a virtual environment folder .venv
+source .venv/bin/activate # turn the virtual environment on
 pip install -r requirements.txt
+
+# Create a draft branch
 git checkout -b draft
 ```
-
-The first line makes a `.venv` folder to hold this assignment's packages. The
-second turns it on, which you do again in every new terminal you open. The
-third installs pytest into it, and the fourth puts you on a draft branch.
 
 ### Testing
 
 There are automated tests provided for you in the `tests/` directory that will help you verify that your functions are behaving as expected. You may read these test files but **you are not allowed to modify them**. You will learn more about `pytest` in lesson 1.9 but for now, you can just use the commands below to run them:
 
 ```sh
-pytest
-pytest -k is_even
+pytest              # run all tests
+pytest -k is_even   # runs just the test_is_even test
 ```
-
-`pytest` on its own runs everything. Adding `-k is_even` runs only the tests
-whose name contains `is_even`, which is how you work on one question at a time.
 
 Additionally, every time you push, GitHub runs the tests for you and reports your score. Open
 the **Actions** tab in your repository to see it.
@@ -155,14 +151,8 @@ is_even(0)
 # True
 ```
 
-Hint: The `%` operator gives you the remainder after division:
-
-```py
-17 % 5
-# 2
-```
-
-What remainder does an even number leave when you divide it by 2?
+Hint: The `%` operator gives you the remainder after division. An even number
+divides by 2 with nothing left over, so its remainder is 0.
 
 ### Question 3: `convert_to_fahrenheit`
 
@@ -291,7 +281,7 @@ make_banner("Hi", symbol="-")
 # "--- Hi ---"
 ```
 
-Hint: The `*` operator repeats a string, the same way it multiplies a number. How many copies does each side need, and what sits between the copies and the text?
+Hint: Multiplying a string by a whole number repeats it, so `"ab" * 4` produces `"abababab"`.
 
 ### Question 9: `calculate_room_cost`
 
