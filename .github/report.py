@@ -13,17 +13,44 @@ Both come from the same XML, so they cannot disagree.
 import os
 import subprocess
 import sys
+import re
 import xml.etree.ElementTree as ET
+from pathlib import Path
 from collections import defaultdict
 
 PASS_MARK = 0.75
 
 
-def suite_of(case):
-    """Group by the test file, which is how assignments are already split."""
-    path = case.get("file") or case.get("classname", "")
-    name = path.rsplit("/", 1)[-1].removesuffix(".py")
-    return name.removeprefix("test_").replace("_", " ").title() or "Tests"
+def source_path(case):
+    """The test file this case came from."""
+    f = case.get("file")
+    if f:
+        return Path(f)
+    # classname looks like "tests.test_debug"; turn it back into a path.
+    return Path(case.get("classname", "").replace(".", "/") + ".py")
+
+
+def suite_meta(path: Path):
+    """The suite's display name and whether it counts, read from the file.
+
+    Test files declare `TEST_SUITE_NAME = "Debug Tests"` and bonus files add
+    `SCORED = False`. JUnit XML carries neither, so read them from the source
+    rather than inventing a name from the filename.
+    """
+    name, scored = None, True
+    try:
+        text = path.read_text(encoding="utf-8")
+    except OSError:
+        text = ""
+    m = re.search(r"""^TEST_SUITE_NAME\s*=\s*["'](.+?)["']""", text, re.M)
+    if m:
+        name = m.group(1)
+    if re.search(r"^SCORED\s*=\s*False\b", text, re.M):
+        scored = False
+    if not name:
+        stem = path.stem.removeprefix("test_").replace("_", " ").title()
+        name = f"{stem} Tests" if stem else "Tests"
+    return name, scored
 
 
 def main(xml_path):
@@ -35,25 +62,33 @@ def main(xml_path):
         return
 
     root = ET.parse(xml_path).getroot()
-    cases = root.iter("testcase")
 
     suites = defaultdict(lambda: [0, 0])
-    for case in cases:
-        passed = not any(case.find(t) is not None
-                         for t in ("failure", "error", "skipped"))
-        s = suites[suite_of(case)]
+    unscored = set()
+    for case in root.iter("testcase"):
+        # A skipped test is not a failed test. Bonus questions ship skipped on
+        # purpose, and counting them would cap a complete submission below
+        # 100% for doing exactly what the assignment asked.
+        if case.find("skipped") is not None:
+            continue
+        name, scored = suite_meta(source_path(case))
+        if not scored:
+            unscored.add(name)
+        passed = not any(case.find(t) is not None for t in ("failure", "error"))
+        s = suites[name]
         s[1] += 1
         s[0] += int(passed)
 
-    total_pass = sum(p for p, _ in suites.values())
-    total = sum(t for _, t in suites.values())
+    total_pass = sum(p for n, (p, _) in suites.items() if n not in unscored)
+    total = sum(t for n, (_, t) in suites.items() if n not in unscored)
     pct = round(100 * total_pass / total) if total else 0
     complete = pct >= PASS_MARK * 100
 
     lines = ["| Suite | Passed |", "| --- | --- |"]
     for name in sorted(suites):
         p, t = suites[name]
-        lines.append(f"| {name} | {p}/{t} |")
+        tag = " _(not scored)_" if name in unscored else ""
+        lines.append(f"| {name}{tag} | {p}/{t} |")
     lines.append(f"| **Total** | **{total_pass}/{total} ({pct}%)** |")
     lines.append("")
     lines.append(
