@@ -93,14 +93,15 @@ because it reveals a rule you didn't know you misunderstood.
 
 Work in `development/mod-1` then use the commands below to get started. You will first make a virtual environment and install the required packages that enable testing for this assignment (`pytest`). You will learn more about virtual environments in lesson 1.9 but for now you just need to remember to run these commands.
 
-Make a `draft` branch before you start.
+Then make a `draft` branch before you start.
 
 ```sh
-# Set up the virtual environment and install required packages
-python3 -m venv .venv # create a virtual environment folder .venv
-source .venv/bin/activate # turn the virtual environment on
+# create a virtual environment folder .venv
+python3 -m venv .venv 
+# turn the virtual environment on
+source .venv/bin/activate 
+# install required packages
 pip install -r requirements.txt
-
 # Create a draft branch
 git checkout -b draft
 ```
