@@ -152,8 +152,7 @@ is_even(0)
 # True
 ```
 
-Hint: The `%` operator gives you the remainder after division. An even number
-divides by 2 with nothing left over, so its remainder is 0.
+Hint: The `%` operator gives you the remainder after division. For example, `17 % 5` evaluates to `2`. Using this operator, what must be true about numbers that are even?
 
 ### Question 3: `convert_to_fahrenheit`
 
